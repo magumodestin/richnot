@@ -1,0 +1,62 @@
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #f5f7ff; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: linear-gradient(180deg, #12326e, #0d2b61); color: white; padding: 30px 20px; position: fixed; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease; }
+        .sidebar.open { transform: translateX(0); }
+        
+        .sidebar-close { display: flex; position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,.1); border: none; color: white; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; align-items: center; justify-content: center; z-index: 1001; }
+        .sidebar-close:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .sidebar-logo span { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+        
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; color: rgba(255,255,255,.75); text-decoration: none; margin-bottom: 5px; transition: .2s; font-size: 15px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,.1); color: white; }
+        .nav-item svg { flex-shrink: 0; }
+        
+        .logout-btn { margin-top: auto; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: white; padding: 12px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .logout-btn:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.5); z-index: 999; }
+        .sidebar-overlay.show { display: block; }
+        
+        .main { margin-left: 0; padding: 30px; transition: margin-left 0.3s ease; }
+        
+        .top-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        
+        .hamburger-btn { display: flex; background: #1a438e; border: none; color: white; width: 45px; height: 45px; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; transition: .2s; flex-shrink: 0; }
+        .hamburger-btn:hover { background: #12326e; }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; flex: 1; }
+        .back-link { display: flex; align-items: center; gap: 8px; color: #1a438e; text-decoration: none; margin-bottom: 15px; font-size: 14px; }
+        .page-header h1 { color: #293346; font-size: 28px; }
+        .page-header p { color: #697383; margin-top: 5px; }
+        
+        .edit-form { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,.05); max-width: 800px; }
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 8px; color: #293346; font-size: 14px; font-weight: 600; }
+        .form-input { width: 100%; padding: 12px; border: 1px solid #e8ecf3; border-radius: 8px; font-size: 14px; outline: none; }
+        .form-input:focus { border-color: #1a438e; }
+        .form-select { width: 100%; padding: 12px; border: 1px solid #e8ecf3; border-radius: 8px; font-size: 14px; outline: none; background: white; }
+        
+        .current-file { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8f9fc; border-radius: 8px; }
+        .file-icon { width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .file-icon.pdf { background: #fee2e2; color: #ef4444; }
+        .file-info h4 { font-size: 14px; color: #293346; }
+        .file-info p { font-size: 12px; color: #697383; margin-top: 3px; }
+        
+        .btn-replace { margin-left: auto; background: #eef2ff; color: #1a438e; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .btn-replace:hover { background: #e0e7ff; }
+        
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; }
+        .btn-cancel { background: #e8ecf3; color: #293346; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-save { background: #1a438e; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-save:hover { background: #12326e; }
+        
+        .success-message { display: none; background: #ecfdf5; color: #10b981; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .success-message.show { display: block; }
+        
+        @media (max-width: 768px) {
+            .main { padding: 20px; }
+            .page-header h1 { font-size: 22px; }
+        }

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="Lecturer-dashboard.css">
+    <title>Lecturer Dashboard - RichNotes</title>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+    </button>
+    
+    <div class="sidebar-logo">
+        <svg width="36" height="42" viewBox="0 0 48 56" fill="none">
+            <path d="M24 3C18 7 12 8 5 8V27C5 40 12 48 24 53C36 48 43 40 43 27V8C36 8 30 7 24 3Z" stroke="#E2E6EE" stroke-width="2"/>
+            <path d="M15 20C18 19 21 20 24 22V35C21 33 18 32 15 33V20Z" fill="#163D85" stroke="#F1F3F6" stroke-width="1.3"/>
+            <path d="M33 20C30 19 27 20 24 22V35C27 33 30 32 33 33V20Z" fill="#163D85" stroke="#F1F3F6" stroke-width="1.3"/>
+            <path d="M24 22V35" stroke="#EF4036" stroke-width="2"/>
+        </svg>
+        <span>RichNotes</span>
+    </div>
+    
+    <nav>
+        <a href="lecturer-dashboard.html" class="nav-item active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            Dashboard
+        </a>
+        <a href="lecturer-modules.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            My Modules
+        </a>
+        <a href="lecturer-upload.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Upload Material
+        </a>
+        <a href="lecturer-materials.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Manage Materials
+        </a>
+        <a href="lecturer-announcements.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Announcements
+        </a>
+        <a href="lecturer-profile.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Profile
+        </a>
+    </nav>
+    
+    <button class="logout-btn" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Logout
+    </button>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<main class="main">
+    <div class="top-bar">
+        <button class="hamburger-btn" onclick="openSidebar()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        
+        <div class="page-header">
+            <div>
+                <h1 id="greeting">Good morning, <span id="userName">Lecturer</span> ??</h1>
+                <p>Here's a quick overview of your teaching activities.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+            </div>
+            <div>
+                <span class="stat-value">4</span>
+                <span class="stat-label">My Modules</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+            </div>
+            <div>
+                <span class="stat-value">120</span>
+                <span class="stat-label">Materials</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </div>
+            <div>
+                <span class="stat-value">248</span>
+                <span class="stat-label">Students</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Recent Uploads</h2>
+            <a class="view-all" href="lecturer-materials.html">View all</a>
+        </div>
+        <div class="upload-item">
+            <div class="file-icon pdf">PDF</div>
+            <div class="file-info">
+                <h4>Introduction to DBMS.pdf</h4>
+                <p>Database Systems ， 24 May 2025</p>
+            </div>
+        </div>
+        <div class="upload-item">
+            <div class="file-icon pdf">PDF</div>
+            <div class="file-info">
+                <h4>Refactory Practice.pdf</h4>
+                <p>Database Systems ， 22 May 2025</p>
+            </div>
+        </div>
+        <div class="upload-item">
+            <div class="file-icon pdf">PDF</div>
+            <div class="file-info">
+                <h4>Networking Basics.pdf</h4>
+                <p>Networking ， 20 May 2025</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-header">
+            <h2>My Modules</h2>
+            <a class="view-all" href="lecturer-modules.html">View all</a>
+        </div>
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-icon blue">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a438e" stroke-width="2">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                    </svg>
+                </div>
+                <div class="module-info">
+                    <h4>Database Systems</h4>
+                    <p>DFS101 ， 124 Students</p>
+                </div>
+                <button class="btn-manage" onclick="location.href='lecturer-materials.html'">Manage</button>
+            </div>
+            <div class="module-card">
+                <div class="module-icon green">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                        <circle cx="12" cy="5" r="3"/>
+                        <circle cx="5" cy="19" r="3"/>
+                        <circle cx="19" cy="19" r="3"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 12l-7 7"/>
+                        <path d="M12 12l7 7"/>
+                    </svg>
+                </div>
+                <div class="module-info">
+                    <h4>Networking</h4>
+                    <p>NET202 ， 86 Students</p>
+                </div>
+                <button class="btn-manage" onclick="location.href='lecturer-materials.html'">Manage</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Quick Actions</h2>
+        </div>
+        <div class="quick-actions">
+            <div class="action-card" onclick="location.href='lecturer-upload.html'">
+                <div class="action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a438e" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <span>Upload Material</span>
+            </div>
+            <div class="action-card" onclick="location.href='lecturer-modules.html'">
+                <div class="action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a438e" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                </div>
+                <span>Manage Modules</span>
+            </div>
+            <div class="action-card" onclick="location.href='lecturer-announcements.html'">
+                <div class="action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a438e" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                </div>
+                <span>Post Announcement</span>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="lecturer-dashboard.js"></script>
+<script src="forlecturer-materials.js"></script>
+
+</body>
+</html>

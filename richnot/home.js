@@ -371,23 +371,25 @@ document.addEventListener("DOMContentLoaded", function () {
         users.push(newUser);
         localStorage.setItem("users", JSON.stringify(users));
 
+        // Log the new user in immediately
+        localStorage.setItem("currentUser", JSON.stringify(newUser));
+
         // Show success state
         const button = registerForm.querySelector(".sign-in-button");
         button.classList.add("success");
         button.textContent = "✓ Account Created!";
-        
-        // Show toast notification
-        showToast("Registration successful! Please sign in.", "success");
 
-        // Reset and switch to login
+        // Show toast notification
+        showToast("Registration successful! Redirecting...", "success");
+
+        // Redirect straight to the correct dashboard
         setTimeout(function () {
-            button.classList.remove("success");
-            button.textContent = "Create Account";
-            registerForm.reset();
-            passwordStrength.classList.remove('visible');
-            clearFeedback();
-            switchView(loginView, registerView);
-        }, 2000);
+            if (newUser.role === "lecturer") {
+                window.location.href = "lecturer-dashboard.html";
+            } else {
+                window.location.href = "student-dashboard.html";
+            }
+        }, 1500);
     });
 
     // ====== LOGIN LOGIC ======

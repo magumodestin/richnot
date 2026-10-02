@@ -25,6 +25,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined,
+  connectTimeout: 20000,
   waitForConnections: true,
   connectionLimit: 5
 });
@@ -65,6 +66,8 @@ app.get("/api/dbcheck", async (req, res) => {
     const [t] = await pool.query("SHOW TABLES");
     res.json({
       ok: true,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
       tables: t.map((r) => Object.values(r)[0]),
       jwtSecretSet: Boolean(process.env.JWT_SECRET)
     });
@@ -73,6 +76,12 @@ app.get("/api/dbcheck", async (req, res) => {
       ok: false,
       code: err.code,
       message: err.message,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+      ssl: process.env.DB_SSL,
+      passwordLength: (process.env.DB_PASSWORD || "").length,
       jwtSecretSet: Boolean(process.env.JWT_SECRET)
     });
   }

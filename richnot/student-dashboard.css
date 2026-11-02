@@ -69,6 +69,8 @@
         .module-icon.blue { background: #eef2ff; }
         .module-icon.green { background: #ecfdf5; }
         .module-icon.orange { background: #fff7ed; }
+        .module-icon.purple { background: #f3e8ff; }
+        .module-icon.teal { background: #f0fdfa; }
         .module-info h4 { font-size: 15px; color: #293346; }
         .module-info p { font-size: 13px; color: #697383; margin-top: 3px; }
         .btn-view { margin-left: auto; background: #1a438e; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; }

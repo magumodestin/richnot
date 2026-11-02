@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - RichNotes</title>
-	<link rel="stylesheet" href="student-dashboard.css">
+    <link rel="stylesheet" href="student-dashboard.css">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
             <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
     </button>
-    
+
     <div class="sidebar-logo">
         <svg width="36" height="42" viewBox="0 0 48 56" fill="none">
             <path d="M24 3C18 7 12 8 5 8V27C5 40 12 48 24 53C36 48 43 40 43 27V8C36 8 30 7 24 3Z" stroke="#E2E6EE" stroke-width="2"/>
@@ -26,7 +26,7 @@
         </svg>
         <span>RichNotes</span>
     </div>
-    
+
     <nav>
         <a href="student-dashboard.html" class="nav-item active">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,7 +69,7 @@
             Profile
         </a>
     </nav>
-    
+
     <button class="logout-btn" onclick="logout()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -93,7 +93,7 @@
                 <line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
         </button>
-        
+
         <div class="page-header">
             <div>
                 <h1 id="greeting">Welcome, <span id="userName">Student</span></h1>
@@ -111,7 +111,8 @@
                 </svg>
             </div>
             <div>
-                <span class="stat-value">6</span>
+                <!-- FIXED: was 6, you now have 5 modules -->
+                <span class="stat-value">5</span>
                 <span class="stat-label">My Modules</span>
             </div>
         </div>
@@ -123,7 +124,8 @@
                 </svg>
             </div>
             <div>
-                <span class="stat-value">45</span>
+                <!-- 5 modules x 5 materials (4 topics + study guide) = 25 -->
+                <span class="stat-value">25</span>
                 <span class="stat-label">Materials</span>
             </div>
         </div>
@@ -158,25 +160,26 @@
             <h2>Recent Materials</h2>
             <a class="view-all" href="student-materials.html">View all</a>
         </div>
+        <!-- FIXED: garbled characters replaced with &bull; -->
         <div class="upload-item">
             <div class="file-icon pdf">PDF</div>
             <div class="file-info">
                 <h4>Introduction to DBMS.pdf</h4>
-                <p>Database Systems ， 24 May 2025</p>
+                <p>Database Systems &bull; 24 May 2025</p>
             </div>
         </div>
         <div class="upload-item">
             <div class="file-icon pdf">PDF</div>
             <div class="file-info">
                 <h4>SQL Queries.pdf</h4>
-                <p>Database Systems ， 20 May 2025</p>
+                <p>Database Systems &bull; 20 May 2025</p>
             </div>
         </div>
         <div class="upload-item">
             <div class="file-icon pdf">PDF</div>
             <div class="file-info">
                 <h4>Networking Basics.pdf</h4>
-                <p>Networking ， 18 May 2025</p>
+                <p>Networking &bull; 18 May 2025</p>
             </div>
         </div>
     </div>
@@ -187,6 +190,7 @@
             <a class="view-all" href="student-modules.html">View all</a>
         </div>
         <div class="modules-grid">
+
             <div class="module-card">
                 <div class="module-icon blue">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a438e" stroke-width="2">
@@ -197,10 +201,11 @@
                 </div>
                 <div class="module-info">
                     <h4>Database Systems</h4>
-                    <p>DFS101 ， Mr. Smith</p>
+                    <p>DFS101 &bull; Mr. Sipho Dlamini</p>
                 </div>
-                <button class="btn-view" onclick="location.href='student-materials.html'">View</button>
+                <button class="btn-view" onclick="location.href='student-materials.html?module=DFS101'">View</button>
             </div>
+
             <div class="module-card">
                 <div class="module-icon green">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
@@ -214,10 +219,11 @@
                 </div>
                 <div class="module-info">
                     <h4>Networking</h4>
-                    <p>NET202 ， Ms. Johnson</p>
+                    <p>NET202 &bull; Ms. Lerato Mokoena</p>
                 </div>
-                <button class="btn-view" onclick="location.href='student-materials.html'">View</button>
+                <button class="btn-view" onclick="location.href='student-materials.html?module=NET202'">View</button>
             </div>
+
             <div class="module-card">
                 <div class="module-icon orange">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
@@ -229,10 +235,41 @@
                 </div>
                 <div class="module-info">
                     <h4>Python Programming</h4>
-                    <p>PYT310 ， Dr. Williams</p>
+                    <p>PYT310 &bull; Dr. Thabo Molefe</p>
                 </div>
-                <button class="btn-view" onclick="location.href='student-materials.html'">View</button>
+                <button class="btn-view" onclick="location.href='student-materials.html?module=PYT310'">View</button>
             </div>
+
+            <!-- NEW -->
+            <div class="module-card">
+                <div class="module-icon purple">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="module-info">
+                    <h4>Business Communication</h4>
+                    <p>BCM201 &bull; Mrs. Nomvula Khumalo</p>
+                </div>
+                <button class="btn-view" onclick="location.href='student-materials.html?module=BCM201'">View</button>
+            </div>
+
+            <!-- NEW -->
+            <div class="module-card">
+                <div class="module-icon teal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <div class="module-info">
+                    <h4>Information Systems</h4>
+                    <p>ISY301 &bull; Mr. Bongani Ndlovu</p>
+                </div>
+                <button class="btn-view" onclick="location.href='student-materials.html?module=ISY301'">View</button>
+            </div>
+
         </div>
     </div>
 
@@ -272,6 +309,8 @@
     </div>
 </main>
 
-<script src="student-siderbar.js"></script>
+<!-- FIXED: shared sidebar script (spelling corrected) + dashboard greeting script -->
+<script src="student-sidebar.js"></script>
+<script src="student-dashboard.js"></script>
 </body>
 </html>

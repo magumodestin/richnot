@@ -1,0 +1,76 @@
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #f5f7ff; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: linear-gradient(180deg, #12326e, #0d2b61); color: white; padding: 30px 20px; position: fixed; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease; }
+        .sidebar.open { transform: translateX(0); }
+        
+        .sidebar-close { display: flex; position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,.1); border: none; color: white; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; align-items: center; justify-content: center; z-index: 1001; }
+        .sidebar-close:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .sidebar-logo span { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+        
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; color: rgba(255,255,255,.75); text-decoration: none; margin-bottom: 5px; transition: .2s; font-size: 15px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,.1); color: white; }
+        .nav-item svg { flex-shrink: 0; }
+        
+        .logout-btn { margin-top: auto; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: white; padding: 12px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .logout-btn:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.5); z-index: 999; }
+        .sidebar-overlay.show { display: block; }
+        
+        .main { margin-left: 0; padding: 30px; transition: margin-left 0.3s ease; }
+        
+        .top-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        
+        .hamburger-btn { display: flex; background: #1a438e; border: none; color: white; width: 45px; height: 45px; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; transition: .2s; flex-shrink: 0; }
+        .hamburger-btn:hover { background: #12326e; }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; flex: 1; }
+        .page-header h1 { color: #293346; font-size: 28px; }
+        .page-header h1 span { color: #1a438e; }
+        .page-header p { color: #697383; margin-top: 5px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .stat-icon.blue { background: #eef2ff; color: #1a438e; }
+        .stat-icon.purple { background: #f3e8ff; color: #7c3aed; }
+        .stat-icon.green { background: #ecfdf5; color: #10b981; }
+        .stat-value { font-size: 24px; font-weight: 700; color: #293346; display: block; }
+        .stat-label { font-size: 13px; color: #697383; }
+        
+        .content-section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-header h2 { font-size: 18px; color: #293346; }
+        .view-all { color: #1a438e; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+        
+        .upload-item { display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 8px; transition: .2s; }
+        .upload-item:hover { background: #f8f9fc; }
+        .file-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+        .file-icon.pdf { background: #fee2e2; color: #ef4444; }
+        .file-info h4 { font-size: 14px; color: #293346; }
+        .file-info p { font-size: 12px; color: #697383; margin-top: 3px; }
+        
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .module-card { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid #e8ecf3; border-radius: 12px; transition: .2s; }
+        .module-card:hover { border-color: #1a438e; }
+        .module-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .module-icon.blue { background: #eef2ff; }
+        .module-icon.green { background: #ecfdf5; }
+        .module-info h4 { font-size: 15px; color: #293346; }
+        .module-info p { font-size: 13px; color: #697383; margin-top: 3px; }
+        .btn-manage { margin-left: auto; background: #1a438e; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .btn-manage:hover { background: #12326e; }
+        
+        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .action-card { background: #f8f9fc; border: 1px solid #e8ecf3; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: .2s; }
+        .action-card:hover { background: #eef2ff; border-color: #1a438e; transform: translateY(-2px); }
+        .action-icon { display: flex; justify-content: center; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .main { padding: 20px; }
+            .page-header h1 { font-size: 22px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }

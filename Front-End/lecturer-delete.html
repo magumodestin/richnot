@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Confirmation - RichNotes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #f5f7ff; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        
+        .delete-card { background: white; border-radius: 16px; padding: 40px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+        .delete-icon { width: 80px; height: 80px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .delete-card h2 { color: #293346; margin-bottom: 15px; font-size: 22px; }
+        .delete-card p { color: #697383; margin-bottom: 10px; line-height: 1.6; }
+        .delete-card .warning { color: #ef4444; font-size: 14px; margin-bottom: 25px; }
+        
+        .delete-buttons { display: flex; gap: 15px; justify-content: center; }
+        .btn-cancel { background: #e8ecf3; color: #293346; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-size: 15px; transition: .2s; }
+        .btn-cancel:hover { background: #d1d5db; }
+        .btn-delete { background: #ef4444; color: white; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-size: 15px; transition: .2s; }
+        .btn-delete:hover { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+<div class="delete-card">
+    <div class="delete-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+    </div>
+    <h2>Delete Material?</h2>
+    <p>Are you sure you want to delete</p>
+    <p><strong>"Introduction to SQL"</strong>?</p>
+    <p class="warning">This action cannot be undone.</p>
+    
+    <div class="delete-buttons">
+        <button class="btn-cancel" onclick="location.href='lecturer-materials.html'">Cancel</button>
+        <button class="btn-delete" onclick="confirmDelete()">Delete</button>
+    </div>
+</div>
+
+<script>
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser || currentUser.role !== "lecturer") {
+        window.location.href = "home.html";
+    }
+    
+    function confirmDelete() {
+        alert("Material has been deleted successfully.");
+        window.location.href = "lecturer-materials.html";
+    }
+</script>
+
+</body>
+</html>

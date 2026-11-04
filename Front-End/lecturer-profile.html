@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - RichNotes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #f5f7ff; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: linear-gradient(180deg, #12326e, #0d2b61); color: white; padding: 30px 20px; position: fixed; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease; }
+        .sidebar.open { transform: translateX(0); }
+        
+        .sidebar-close { display: flex; position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,.1); border: none; color: white; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; align-items: center; justify-content: center; z-index: 1001; }
+        .sidebar-close:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .sidebar-logo span { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+        
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; color: rgba(255,255,255,.75); text-decoration: none; margin-bottom: 5px; transition: .2s; font-size: 15px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,.1); color: white; }
+        .nav-item svg { flex-shrink: 0; }
+        
+        .logout-btn { margin-top: auto; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: white; padding: 12px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .logout-btn:hover { background: rgba(255,255,255,.2); }
+        
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.5); z-index: 999; }
+        .sidebar-overlay.show { display: block; }
+        
+        .main { margin-left: 0; padding: 30px; transition: margin-left 0.3s ease; }
+        
+        .top-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        
+        .hamburger-btn { display: flex; background: #1a438e; border: none; color: white; width: 45px; height: 45px; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; transition: .2s; flex-shrink: 0; }
+        .hamburger-btn:hover { background: #12326e; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: #1a438e; text-decoration: none; margin-bottom: 20px; font-size: 14px; font-weight: 500; transition: .2s; }
+        .back-link:hover { color: #12326e; }
+        
+        .profile-header { margin-bottom: 30px; }
+        .profile-header h2 { color: #293346; font-size: 28px; }
+        .profile-header .sub { color: #697383; margin-top: 5px; }
+        
+        .profile-card { background: white; border-radius: 16px; padding: 30px; display: flex; gap: 60px; box-shadow: 0 2px 8px rgba(0,0,0,.05); max-width: 900px; }
+        .left-side { text-align: center; min-width: 200px; }
+        .left-side img { width: 140px; height: 140px; border-radius: 50%; background: #E8F0FE; object-fit: cover; border: 3px solid #eef2ff; }
+        .left-side a { display: block; margin-top: 12px; color: #4361EE; text-decoration: none; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .left-side a:hover { text-decoration: underline; }
+        
+        .right-side { display: flex; flex-direction: column; gap: 20px; flex: 1; }
+        .label { display: block; color: #8a8a8a; font-size: 13px; margin-bottom: 4px; }
+        .value { font-weight: bold; color: #222; font-size: 15px; }
+        
+        .submit-btn { display: block; height: 50px; width: 100%; padding: 12px; margin-top: 15px; font-size: 15px; font-weight: bold; border: none; border-radius: 8px; color: #f2f2f2; background-color: #3149c4; cursor: pointer; transition: .2s; }
+        .submit-btn:hover { background-color: #1a438e; }
+        .submit-btn.success { background-color: #10b981; }
+        
+        .success-message { display: none; background: #ecfdf5; color: #10b981; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .success-message.show { display: block; }
+        
+        .role-badge { display: inline-block; background: #eef2ff; color: #1a438e; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 5px; }
+        
+        @media (max-width: 768px) {
+            .main { padding: 20px; }
+            .profile-card { flex-direction: column; gap: 30px; }
+            .left-side { min-width: auto; }
+            .profile-header h2 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+    </button>
+    
+    <div class="sidebar-logo">
+        <svg width="36" height="42" viewBox="0 0 48 56" fill="none">
+            <path d="M24 3C18 7 12 8 5 8V27C5 40 12 48 24 53C36 48 43 40 43 27V8C36 8 30 7 24 3Z" stroke="#E2E6EE" stroke-width="2"/>
+            <path d="M15 20C18 19 21 20 24 22V35C21 33 18 32 15 33V20Z" fill="#163D85" stroke="#F1F3F6" stroke-width="1.3"/>
+            <path d="M33 20C30 19 27 20 24 22V35C27 33 30 32 33 33V20Z" fill="#163D85" stroke="#F1F3F6" stroke-width="1.3"/>
+            <path d="M24 22V35" stroke="#EF4036" stroke-width="2"/>
+        </svg>
+        <span>RichNotes</span>
+    </div>
+    
+    <nav>
+        <a href="lecturer-dashboard.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            Dashboard
+        </a>
+        <a href="lecturer-modules.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            My Modules
+        </a>
+        <a href="lecturer-upload.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Upload Material
+        </a>
+        <a href="lecturer-materials.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Manage Materials
+        </a>
+        <a href="lecturer-announcements.html" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Announcements
+        </a>
+        <a href="lecturer-profile.html" class="nav-item active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Profile
+        </a>
+    </nav>
+    
+    <button class="logout-btn" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Logout
+    </button>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<main class="main">
+    <div class="top-bar">
+        <button class="hamburger-btn" onclick="openSidebar()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        
+        <div style="flex: 1;">
+            <a href="#" id="backToDashboard" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Back to Dashboard
+            </a>
+
+            <div class="success-message" id="successMsg">
+                ✅ Profile updated successfully!
+            </div>
+
+            <div class="profile-header">
+                <h2>My Profile</h2>
+                <p class="sub">View and update your profile information.</p>
+            </div>
+
+            <div class="profile-card">
+                <div class="left-side">
+                    <img id="profilePic" src="no-profile-pic.jpg" alt="no profile picture yet">
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                    <a href="#" id="editLink">Edit Profile</a>
+                </div>
+
+                <div class="right-side">
+                    <div>
+                        <span class="label">Full Name</span>
+                        <span class="value" id="profileName">Loading...</span>
+                    </div>
+                    <div>
+                        <span class="label">Email</span>
+                        <span class="value" id="profileEmail">Loading...</span>
+                    </div>
+                    <div>
+                        <span class="label">Role</span>
+                        <span class="value" id="profileRole">Loading...</span>
+                        <span class="role-badge" id="roleBadge">Lecturer</span>
+                    </div>
+                    <div>
+                        <span class="label">Member Since</span>
+                        <span class="value" id="profileDate">Loading...</span>
+                    </div>
+                    <button class="submit-btn" id="updateBtn">Update Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    
+    if (!currentUser) {
+        window.location.href = "home.html";
+    } else {
+        const backLink = document.getElementById('backToDashboard');
+        if (currentUser.role === "lecturer") {
+            backLink.href = "lecturer-dashboard.html";
+        } else {
+            backLink.href = "student-dashboard.html";
+        }
+        
+        document.getElementById('profileName').textContent = currentUser.name;
+        document.getElementById('profileEmail').textContent = currentUser.email;
+        document.getElementById('profileRole').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+        document.getElementById('roleBadge').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+        
+        if (currentUser.memberSince) {
+            document.getElementById('profileDate').textContent = currentUser.memberSince;
+        }
+        
+        if (currentUser.profilePic) {
+            document.getElementById('profilePic').src = currentUser.profilePic;
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("currentUser");
+        window.location.href = "home.html";
+    }
+
+    function openSidebar() {
+        document.getElementById("sidebar").classList.add("open");
+        document.getElementById("sidebarOverlay").classList.add("show");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebarOverlay").classList.remove("show");
+        document.body.style.overflow = "";
+    }
+
+    const editLink = document.getElementById('editLink');
+    const fileInput = document.getElementById('fileInput');
+    const profilePic = document.getElementById('profilePic');
+
+    editLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePic.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    const updateBtn = document.getElementById('updateBtn');
+    const successMsg = document.getElementById('successMsg');
+
+    updateBtn.addEventListener('click', function() {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        
+        if (userIndex !== -1) {
+            if (profilePic.src !== "no-profile-pic.jpg" && profilePic.src.startsWith("data:")) {
+                users[userIndex].profilePic = profilePic.src;
+            }
+            
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("currentUser", JSON.stringify(users[userIndex]));
+            
+            updateBtn.textContent = "✓ Profile Updated!";
+            updateBtn.classList.add("success");
+            successMsg.classList.add("show");
+            
+            setTimeout(function() {
+                updateBtn.textContent = "Update Profile";
+                updateBtn.classList.remove("success");
+                successMsg.classList.remove("show");
+            }, 2000);
+        }
+    });
+</script>
+
+</body>
+</html>

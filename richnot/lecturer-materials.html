@@ -102,8 +102,8 @@
         <div class="page-header">
             <div>
                 <a href="lecturer-modules.html" class="back-link">← My Modules</a>
-                <h1>Database Systems</h1>
-                <p>DFS101</p>
+                <h1 id="moduleTitle">Module Materials</h1>
+                <p id="moduleSubtitle"></p>
             </div>
             <button class="btn-primary" onclick="location.href='lecturer-upload.html'">+ Upload Material</button>
         </div>
@@ -115,15 +115,15 @@
                 <circle cx="11" cy="11" r="8"/>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input type="text" placeholder="Search materials...">
+            <input type="text" id="searchInput" placeholder="Search materials...">
         </div>
-        <select class="filter-select">
+        <select class="filter-select" id="typeFilter">
             <option>All Types</option>
             <option>PDF</option>
             <option>Lecture Notes</option>
             <option>Slides</option>
         </select>
-        <select class="filter-select">
+        <select class="filter-select" id="sortFilter">
             <option>Newest</option>
             <option>Oldest</option>
         </select>
@@ -139,53 +139,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="material-title">
-                            <span class="file-icon pdf">PDF</span>
-                            <span>Introduction to SQL</span>
-                        </div>
-                    </td>
-                    <td><span class="badge pdf">PDF</span></td>
-                    <td>24 May 2025</td>
-                    <td class="actions">
-                        <button class="btn-action view" title="View">👁</button>
-                        <button class="btn-action edit" title="Edit" onclick="location.href='lecturer-edit.html'">✏️</button>
-                        <button class="btn-action delete" title="Delete" onclick="showDeleteModal('Introduction to SQL')">🗑</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="material-title">
-                            <span class="file-icon pdf">PDF</span>
-                            <span>Database Normalization</span>
-                        </div>
-                    </td>
-                    <td><span class="badge pdf">PDF</span></td>
-                    <td>20 May 2025</td>
-                    <td class="actions">
-                        <button class="btn-action view" title="View">👁</button>
-                        <button class="btn-action edit" title="Edit" onclick="location.href='lecturer-edit.html'">✏️</button>
-                        <button class="btn-action delete" title="Delete" onclick="showDeleteModal('Database Normalization')">🗑</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="material-title">
-                            <span class="file-icon slides">PPT</span>
-                            <span>SQL Queries</span>
-                        </div>
-                    </td>
-                    <td><span class="badge slides">Slides</span></td>
-                    <td>15 May 2025</td>
-                    <td class="actions">
-                        <button class="btn-action view" title="View">👁</button>
-                        <button class="btn-action edit" title="Edit" onclick="location.href='lecturer-edit.html'">✏️</button>
-                        <button class="btn-action delete" title="Delete" onclick="showDeleteModal('SQL Queries')">🗑</button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody id="materialsBody"></tbody>
         </table>
     </div>
 </main>
@@ -204,7 +158,8 @@
     </div>
 </div>
 
-<script src="forlecturer-materials.js"></script>
+<script src="modules-data.js"></script>
 <script src="lecturer-siderbar.js"></script>
+<script src="lecturer-materials.js"></script>
 </body>
 </html>

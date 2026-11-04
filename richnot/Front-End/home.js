@@ -1,3 +1,27 @@
+const API_URL = "https://richnotes-api.vercel.app/api/auth";
+
+async function callApi(path, body) {
+    const res = await fetch(API_URL + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    });
+    let data = {};
+    try { data = await res.json(); } catch (e) {}
+    return { ok: res.ok, status: res.status, data: data };
+}
+
+function toSessionUser(data) {
+    const u = data.user;
+    return {
+        id: u.UserID,
+        name: (u.FirstName + " " + u.LastName).trim(),
+        email: u.Email,
+        role: u.Role,
+        token: data.token
+    };
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const loginView = document.getElementById("loginView");
     const registerView = document.getElementById("registerView");
@@ -294,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    registerForm.addEventListener("submit", function (event) {
+    registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         clearFeedback();
         
@@ -344,34 +368,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!isValid) return;
 
-        // Check if user already exists
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const userExists = users.some(user => user.email === email);
+        const registerButton = registerForm.querySelector(".sign-in-button");
+        registerButton.disabled = true;
 
-        if (userExists) {
-            showError(registerEmail, "An account with this email already exists");
+        let result;
+        try {
+            result = await callApi("/register", { name: name, email: email, password: password, role: role });
+        } catch (err) {
+            registerButton.disabled = false;
+            showToast("Cannot reach the server. Please try again.", "error");
+            return;
+        }
+        registerButton.disabled = false;
+
+        if (!result.ok) {
+            if (result.status === 409) {
+                showError(registerEmail, result.data.message || "An account with this email already exists");
+            } else {
+                showToast(result.data.message || "Registration failed. Please try again.", "error");
+            }
             return;
         }
 
-        // Create new user
-        const newUser = {
-            id: Date.now(),
-            name: name,
-            email: email,
-            password: password,
-            role: role,
-            memberSince: new Date().toLocaleDateString("en-US", { 
-                month: "long", 
-                day: "numeric", 
-                year: "numeric" 
-            })
-        };
-
-        // Save user
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-
-        // Log the new user in immediately
+        const newUser = toSessionUser(result.data);
+        newUser.memberSince = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
         localStorage.setItem("currentUser", JSON.stringify(newUser));
 
         // Show success state
@@ -412,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    loginForm.addEventListener("submit", function (event) {
+    loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         clearFeedback();
         
@@ -438,16 +458,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!isValid) return;
 
-        // Find user in localStorage
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const user = users.find(u => u.email === email && u.password === password);
+        const loginButton = loginForm.querySelector(".sign-in-button");
+        loginButton.disabled = true;
 
-        if (!user) {
-            // Show error with shake animation
-            showError(loginEmail, "Invalid email or password");
-            showError(loginPasswordInput, "Invalid email or password");
+        let result;
+        try {
+            result = await callApi("/login", { email: email, password: password });
+        } catch (err) {
+            loginButton.disabled = false;
+            showToast("Cannot reach the server. Please try again.", "error");
             return;
         }
+        loginButton.disabled = false;
+
+        if (!result.ok) {
+            if (result.status === 401) {
+                showError(loginEmail, "Invalid email or password");
+                showError(loginPasswordInput, "Invalid email or password");
+            } else {
+                showToast(result.data.message || "Login failed. Please try again.", "error");
+            }
+            return;
+        }
+
+        const user = toSessionUser(result.data);
 
         // Show success state
         showSuccess(loginEmail);

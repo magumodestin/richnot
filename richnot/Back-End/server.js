@@ -64,21 +64,6 @@ const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 // ---------- Routes ----------
 app.get("/api/ping", (req, res) => res.json({ ok: true }));
 
-// TEMPORARY: shows the real database error. Delete this route when it works.
-app.get("/api/dbtest", async (req, res) => {
-  try {
-    const r = await pool.query("SELECT COUNT(*) FROM users");
-    res.json({ ok: true, users: r.rows[0].count });
-  } catch (err) {
-    res.json({
-      ok: false,
-      hasUrl: !!process.env.DATABASE_URL,
-      error: err.message,
-      code: err.code,
-    });
-  }
-});
-
 // REGISTER
 app.post("/api/auth/register", async (req, res) => {
   try {
